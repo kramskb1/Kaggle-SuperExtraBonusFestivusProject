@@ -4,29 +4,30 @@ import pickle
 
 # load model
 model = pickle.load(open('model.pkl','rb'))
-
+for i in model:
+    print (i) 
 # app
-app = Flask(__name__)
+# app = Flask(__name__)
 
-# routes
-@app.route('/', methods=['POST'])
+# # routes
+# @app.route('/', methods=['POST'])
 
-def predict():
-    # get data
-    data = request.get_json(force=True)
+# def predict():
+#     # get data
+#     data = request.get_json(force=True)
 
-    # convert data into dataframe
-    data.update((x, [y]) for x, y in data.items())
-    data_df = pd.DataFrame.from_dict(data)
+#     # convert data into dataframe
+#     data.update((x, [y]) for x, y in data.items())
+#     data_df = pd.DataFrame.from_dict(data)
 
-    # predictions
-    result = model.predict(data_df)
+#     # predictions
+#     result = model.predict(data_df)
 
-    # send back to browser
-    output = {'results': int(result[0])}
+#     # send back to browser
+#     output = {'results': int(result[0])}
 
-    # return data
-    return jsonify(results=output)
+#     # return data
+#     return jsonify(results=output)
 
 if __name__ == '__main__':
     app.run(port = 5000, debug=True)
