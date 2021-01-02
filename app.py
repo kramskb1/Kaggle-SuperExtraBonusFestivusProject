@@ -10,7 +10,12 @@ app
 app = Flask(__name__)
 
  #routes
-@app.route('/', methods=['POST'])
+@app.route('/')
+def index():
+    return render_template('index.html')
+@app.route('/about')
+def about():
+	return render_template('about.html')
 
 def predict():
 # get data
