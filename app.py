@@ -14,7 +14,7 @@ app = Flask(__name__)
 
 def predict():
 # get data
-    data = request.get_json(force=True)
+data = request.get_json(force=True)
 
    # convert data into dataframe
 data.update((x, [y]) for x, y in data.items())
@@ -27,7 +27,7 @@ results = model.predict(data_df)
 output = {'results': int(results[0])}
 
     # return data
-return jsonify(results=output)
+    return jsonify(results=output)
 
-if __name__ == '__main__':
+    if __name__ == '__main__':
     app.run(port = 5000, debug=True)
