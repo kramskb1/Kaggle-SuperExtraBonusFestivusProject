@@ -16,6 +16,9 @@ def index():
 @app.route('/about')
 def about():
 	return render_template('about.html')
+@app.route('/predict', methods=['GET', 'POST'])
+def predict():
+	form = PredictorsForm(request.form)
 
 def predict():
 # get data
