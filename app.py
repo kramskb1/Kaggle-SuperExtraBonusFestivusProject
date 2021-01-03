@@ -1,6 +1,7 @@
 import pandas as pd
 from flask import Flask, jsonify, request
 import pickle
+from sklearn.ensemble import RandomForestClassifier
 
 # load model
 model = pickle.load(open('model.pkl','rb'))
