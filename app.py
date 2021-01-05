@@ -13,6 +13,14 @@ for i in model:
     print (i) 
 app
 app = Flask(__name__)
+def get_prediction_for_passenger(passenger):
+    passenger_representation = pd.DataFrame(passenger[explanatory_vars].to_dict(), index=[0])
+    return classifier.predict(passenger_representation)[0]
+
+
+def annotate_passenger_with_survival_prediction(passenger):
+    preprocessed_passenger = pre_process_single_passenger_data(passenger, passengers)
+    passenger['SurvivalChance'] = get_prediction_for_passenger(preprocessed_passenger)
 
  #routes
 @app.route('/')
@@ -28,6 +36,23 @@ def predict():
 def predict():
 # get data
 data = request.get_json(force=True)
+
+@app.route('/api/survival/', methods=['GET'])
+def get_passenger():
+
+    serializer_fields = [
+        'Name',
+        'SurvivalChance',
+    ] + explanatory_vars
+
+    closest_passenger = find_closest_passenger(q_name=clean_text(request.args.get('name', '')))
+    annotate_passenger_with_survival_prediction(closest_passenger)
+
+    return app.response_class(
+        response=closest_passenger[serializer_fields].to_json(),
+        status=200,
+        mimetype='application/json'
+    )
 
    # convert data into dataframe
 data.update((x, [y]) for x, y in data.items())
